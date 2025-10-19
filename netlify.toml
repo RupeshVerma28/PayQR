@@ -1,0 +1,10 @@
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Content-Security-Policy = "default-src 'self' cdn.jsdelivr.net; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline' cdn.jsdelivr.net; script-src 'self' 'unsafe-inline' cdn.jsdelivr.net;"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
