@@ -30,11 +30,14 @@ body {
 .btn-primary {
   background-color: var(--primary) !important;
   border-color: var(--primary) !important;
+  border: none;
+  transition: transform 0.2s, background-color 0.2s;
 }
 
 .btn-primary:hover {
   background-color: var(--primary-hover) !important;
   border-color: var(--primary-hover) !important;
+  transform: translateY(-2px);
 }
 
 /* Form styles */
@@ -80,4 +83,35 @@ body {
 
 .navbar {
   backdrop-filter: blur(10px);
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .display-4 {
+    font-size: 2.5rem;
+  }
+
+  .lead {
+    font-size: 1.1rem;
+  }
+
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* Surface hover effect */
+.surface:hover {
+  transform: translateY(-3px);
+}
+
+/* Additional spacing utilities */
+.py-5 {
+  padding-top: 3rem !important;
+  padding-bottom: 3rem !important;
+}
+
+.mb-5 {
+  margin-bottom: 3rem !important;
 }

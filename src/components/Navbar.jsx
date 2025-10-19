@@ -8,7 +8,12 @@ export default function Navbar() {
     <nav className="navbar navbar-expand-lg navbar-dark bg-[#1a1a1a] border-b border-gray-800">
       <div className="container">
         <Link to="/" className="navbar-brand d-flex align-items-center">
-          <i className="bi bi-qr-code text-purple-500 me-2"></i>
+          <img
+            src="/payfillqr.png"
+            alt="PayfillQR"
+            className="me-2"
+            style={{ height: "30px", width: "auto" }}
+          />
           <span className="font-bold">PayfillQR</span>
         </Link>
         {isGenerator && (
