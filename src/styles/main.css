@@ -1,0 +1,57 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+:root {
+  --phonepe-purple: #5f259f;
+  --phonepe-violet: #bf5af2;
+  --dark-bg: #121212;
+  --surface-1: #1e1e1e;
+  --surface-2: #2d2d2d;
+  --text-primary: #eaeaea;
+  --text-secondary: #a1a1a6;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background-color: var(--dark-bg) !important;
+  color: var(--text-primary);
+}
+
+.surface {
+  background-color: var(--surface-1);
+  border: 1px solid var(--surface-2);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-phonepe {
+  background-color: var(--phonepe-purple);
+  color: white;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.btn-phonepe:hover {
+  background-color: var(--phonepe-violet);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.form-control,
+.input-group-text {
+  background-color: var(--surface-2) !important;
+  border-color: var(--surface-2) !important;
+  color: var(--text-primary) !important;
+}
+
+.form-control::placeholder {
+  color: var(--text-secondary) !important;
+}
+
+.form-label {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary) !important;
+}

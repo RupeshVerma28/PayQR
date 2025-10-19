@@ -1,19 +1,15 @@
 {
-  "name": "UPI QR Generator - Rupesh Verma",
-  "short_name": "UPI QR",
+  "name": "PayfillQR - UPI QR Code Generator",
+  "short_name": "PayfillQR",
+  "description": "Generate pre-filled UPI payment QR codes instantly",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#0f172a",
+  "background_color": "#121212",
+  "theme_color": "#1a1a1a",
   "icons": [
     {
-      "src": "/icon-192.png",
+      "src": "payfillqr.png",
       "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "/icon-512.png",
-      "sizes": "512x512",
       "type": "image/png"
     }
   ]

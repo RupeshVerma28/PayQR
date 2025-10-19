@@ -1,14 +1,83 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
-/* Custom dark theme tweaks */
-body { background-color: #0f172a; color: #e6eef8; }
+:root {
+  --primary: #8b5cf6;
+  --primary-hover: #7c3aed;
+  --dark-bg: #121212;
+  --surface-1: #1a1a1a;
+  --surface-2: #2d2d2d;
+  --text-primary: #f3f4f6;
+  --text-secondary: #9ca3af;
+}
 
-/* card look */
-.app-card {
-  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-  border: 1px solid rgba(255,255,255,0.04);
+/* Base styles */
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background-color: var(--dark-bg) !important;
+  color: var(--text-primary);
+}
+
+/* Surface styles */
+.surface {
+  background-color: var(--surface-1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 12px;
-  padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Button styles */
+.btn-primary {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
+}
+
+/* Form styles */
+.form-control,
+.input-group-text {
+  background-color: var(--surface-2) !important;
+  border-color: var(--surface-2) !important;
+  color: var(--text-primary) !important;
+}
+
+.form-control::placeholder {
+  color: var(--text-secondary) !important;
+}
+
+.form-label {
+  color: var(--text-primary);
+}
+
+/* Card styles */
+.app-card {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.03),
+    rgba(255, 255, 255, 0.02)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+/* Utility classes */
+.bg-dark {
+  background-color: var(--dark-bg) !important;
+}
+
+.text-white {
+  color: var(--text-primary) !important;
+}
+
+.text-secondary {
+  color: var(--text-secondary) !important;
+}
+
+.navbar {
+  backdrop-filter: blur(10px);
 }
