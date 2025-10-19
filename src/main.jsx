@@ -1,26 +1,20 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import { createRoot } from "react-dom/client";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css"; // Add this line
 import "./index.css";
-import App from "./App.jsx";
+import App from "./App";
 
-// Register service worker for PWA functionality
-if ("serviceWorker" in navigator && import.meta.env.PROD) {
-  window.addEventListener("load", async () => {
-    try {
-      const registration = await navigator.serviceWorker.register(
-        "/service-worker.js"
-      );
-      console.log(
-        "Service Worker registered successfully:",
-        registration.scope
-      );
-    } catch (error) {
-      console.error("Service Worker registration failed:", error);
-    }
+// Register a basic service worker for PWA
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/service-worker.js").catch((err) => {
+      console.warn("Service worker registration failed:", err);
+    });
   });
 }
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>

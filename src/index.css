@@ -1,14 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css");
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css");
 
 :root {
-  --primary: #8b5cf6;
-  --primary-hover: #7c3aed;
+  --phonepe-purple: #5f259f;
+  --phonepe-violet: #bf5af2;
   --dark-bg: #121212;
-  --surface-1: #1a1a1a;
+  --surface-1: #1e1e1e;
   --surface-2: #2d2d2d;
-  --text-primary: #f3f4f6;
-  --text-secondary: #9ca3af;
+  --text-primary: #e6eef8;
+  --text-secondary: rgba(255, 255, 255, 0.5);
 }
 
 /* Base styles */

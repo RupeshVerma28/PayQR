@@ -3,10 +3,13 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
+  base: "./", // Ensure relative paths for assets
   server: {
     port: 3000,
   },
-  css: {
-    modules: false,
+  build: {
+    rollupOptions: {
+      input: "./index.html",
+    },
   },
 });

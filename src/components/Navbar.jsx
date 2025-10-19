@@ -5,15 +5,30 @@ export default function Navbar() {
   const isGenerator = location.pathname === "/generator";
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-[#1a1a1a] border-b border-gray-800">
+    <nav
+      className="navbar navbar-expand-lg"
+      style={{
+        backgroundColor: "#121212",
+        borderBottom: "1px solid #282828",
+        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+      }}
+    >
       <div className="container">
-        <Link to="/" className="navbar-brand d-flex align-items-center">
-          <i className="bi bi-qr-code text-purple-500 me-2"></i>
-          <span className="font-bold">PayfillQR</span>
+        <Link
+          to="/"
+          className="navbar-brand d-flex align-items-center text-light"
+        >
+          <img
+            src="/payfillqr.png"
+            alt="PayfillQR"
+            className="me-2"
+            style={{ height: "30px", width: "auto" }}
+          />
+          <span className="fw-bold">PayfillQR</span>
         </Link>
         {isGenerator && (
           <Link to="/" className="btn btn-outline-light btn-sm">
-            <i className="bi bi-arrow-left me-2"></i>
+            <i className="bi bi-arrow-left me-2 text-primary"></i>
             Back to Home
           </Link>
         )}

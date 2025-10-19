@@ -1,223 +1,146 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import QRCode from "react-qr-code";
-import Loading from "./Loading";
 
 export default function QRGenerator() {
-  const [loading, setLoading] = useState(true);
   const [upiId, setUpiId] = useState("");
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [note, setNote] = useState("");
   const [upiUrl, setUpiUrl] = useState("");
-  const canvasRef = useRef(null);
+  const qrRef = useRef(null);
 
-  useEffect(() => {
-    setTimeout(() => setLoading(false), 1500);
-  }, []);
+  const buildUpiUrl = () => {
+    let url = `upi://pay?pa=${upiId}`;
+    if (name) url += `&pn=${encodeURIComponent(name)}`;
+    if (amount) url += `&mc=${amount}`;
+    if (note) url += `&tid=${encodeURIComponent(note)}`;
+    setUpiUrl(url);
+  };
 
-  function buildUpiUrl() {
-    if (!upiId) {
-      alert("Please enter UPI ID");
-      return;
+  const handleGenerate = (e) => {
+    e.preventDefault();
+    buildUpiUrl();
+  };
+
+  const downloadQR = () => {
+    const canvas = qrRef.current.querySelector("canvas");
+    if (canvas) {
+      const pngUrl = canvas.toDataURL("image/png");
+      const downloadLink = document.createElement("a");
+      downloadLink.href = pngUrl;
+      downloadLink.download = "upi-qr-code.png";
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
     }
-    const pa = encodeURIComponent(upiId.trim());
-    const pn = encodeURIComponent(name.trim());
-    const am = amount ? encodeURIComponent(parseFloat(amount).toFixed(2)) : "";
-    const cu = "INR";
-    const tn = encodeURIComponent(note.trim());
+  };
 
-    let url = `upi://pay?pa=${pa}&cu=${cu}`;
-    if (pn) url += `&pn=${pn}`;
-    if (am) url += `&am=${am}`;
-    if (tn) url += `&tn=${tn}`;
-    return url;
-  }
-
-  function handleGenerate(e) {
-    e && e.preventDefault();
-    const url = buildUpiUrl();
-    if (url) setUpiUrl(url);
-    setTimeout(() => {}, 100);
-  }
-
-  function downloadQR() {
-    const canvas = document.getElementById("upi-canvas");
-    if (!canvas) return alert("QR not ready yet");
-    const dataUrl = canvas.toDataURL("image/png");
-    const a = document.createElement("a");
-    a.href = dataUrl;
-    a.download = "upi_qr.png";
-    a.click();
-  }
-
-  function copyUpiUrl() {
-    if (!upiUrl) return alert("Generate a QR first");
-    navigator.clipboard
-      .writeText(upiUrl)
-      .then(() => alert("UPI URL copied to clipboard"));
-  }
-
-  if (loading) return <Loading />;
+  const copyUpiUrl = () => {
+    navigator.clipboard.writeText(upiUrl).then(
+      () => {
+        alert("UPI URL copied to clipboard!");
+      },
+      (err) => {
+        console.error("Error copying UPI URL: ", err);
+      }
+    );
+  };
 
   return (
-    <div className="min-h-screen bg-dark">
-      <div className="container py-4 py-md-5">
-        <header className="mb-5 text-center">
-          <h1 className="display-5 fw-bold text-white mb-3">
-            <i className="bi bi-qr-code me-2"></i>
-            UPI QR Generator
-          </h1>
-          <p className="text-secondary fs-5">
-            Create UPI QR codes instantly - Simple, Fast & Secure
-          </p>
-        </header>
+    <div className="container py-4">
+      <div className="row justify-content-center">
+        <div className="col-12 col-lg-10">
+          <header className="mb-4">
+            <h2 className="h3 mb-2">Generate UPI QR Code</h2>
+            <p className="text-secondary">
+              Fill in the details below to generate your QR code
+            </p>
+          </header>
 
-        <div className="row g-4">
-          <div className="col-12">
-            <div className="surface p-4">
-              <form onSubmit={handleGenerate} className="row g-3">
-                <div className="col-md-6">
-                  <label className="form-label">UPI ID</label>
-                  <div className="input-group">
-                    <span className="input-group-text bg-dark border-secondary">
-                      <i className="bi bi-at"></i>
-                    </span>
-                    <input
-                      value={upiId}
-                      onChange={(e) => setUpiId(e.target.value)}
-                      className="form-control bg-dark border-secondary text-white"
-                      placeholder="example@upi"
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <label className="form-label">Name</label>
-                  <div className="input-group">
-                    <span className="input-group-text bg-dark border-secondary">
-                      <i className="bi bi-person"></i>
-                    </span>
-                    <input
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="form-control bg-dark border-secondary text-white"
-                      placeholder="Merchant or Payee name"
-                    />
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <label className="form-label">Amount (optional)</label>
-                  <div className="input-group">
-                    <span className="input-group-text bg-dark border-secondary">
-                      <i className="bi bi-cash"></i>
-                    </span>
-                    <input
-                      value={amount}
-                      onChange={(e) => setAmount(e.target.value)}
-                      className="form-control bg-dark border-secondary text-white"
-                      placeholder="e.g. 199.00"
-                      type="number"
-                    />
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <label className="form-label">Note</label>
-                  <div className="input-group">
-                    <span className="input-group-text bg-dark border-secondary">
-                      <i className="bi bi-file-earmark-text"></i>
-                    </span>
-                    <input
-                      value={note}
-                      onChange={(e) => setNote(e.target.value)}
-                      className="form-control bg-dark border-secondary text-white"
-                      placeholder="Payment note (optional)"
-                    />
-                  </div>
-                </div>
-                <div className="col-12">
-                  <div className="d-flex gap-2 flex-wrap">
-                    <button type="submit" className="btn btn-phonepe">
-                      <i className="bi bi-qr-code-scan me-2"></i>
-                      Generate QR
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-outline-light"
-                      onClick={() => {
-                        setUpiId("");
-                        setName("");
-                        setAmount("");
-                        setNote("");
-                        setUpiUrl("");
-                      }}
-                    >
-                      <i className="bi bi-x-lg me-2"></i>
-                      Clear
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-outline-light"
-                      onClick={copyUpiUrl}
-                    >
-                      <i className="bi bi-clipboard me-2"></i>
-                      Copy UPI URL
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
+          <div className="surface p-4 mb-4">
+            <form onSubmit={handleGenerate} className="row g-3">
+              <div className="col-md-6">
+                <label className="form-label">
+                  <i className="bi bi-at me-2"></i>UPI ID
+                </label>
+                <input
+                  value={upiId}
+                  onChange={(e) => setUpiId(e.target.value)}
+                  className="form-control"
+                  placeholder="example@upi"
+                  required
+                />
+              </div>
+
+              <div className="col-md-6">
+                <label className="form-label">
+                  <i className="bi bi-person me-2"></i>Name
+                </label>
+                <input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="form-control"
+                  placeholder="Your Name"
+                />
+              </div>
+
+              <div className="col-md-6">
+                <label className="form-label">
+                  <i className="bi bi-currency-rupee me-2"></i>Amount (optional)
+                </label>
+                <input
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  className="form-control"
+                  placeholder="Amount"
+                  type="number"
+                />
+              </div>
+
+              <div className="col-md-6">
+                <label className="form-label">
+                  <i className="bi bi-sticky me-2"></i>Note
+                </label>
+                <input
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                  className="form-control"
+                  placeholder="Transaction Note"
+                />
+              </div>
+
+              <div className="col-12 d-flex flex-wrap gap-2">
+                <button type="submit" className="btn btn-success me-2 mb-2">
+                  <i className="bi bi-qr-code me-2"></i>Generate QR
+                </button>
+                <button
+                  type="button"
+                  onClick={downloadQR}
+                  className="btn btn-warning text-dark me-2 mb-2"
+                >
+                  <i className="bi bi-download me-2"></i>Download QR
+                </button>
+                <button
+                  type="button"
+                  onClick={copyUpiUrl}
+                  className="btn btn-info text-dark mb-2"
+                >
+                  <i className="bi bi-clipboard me-2"></i>Copy UPI URL
+                </button>
+              </div>
+            </form>
           </div>
 
-          <div className="col-12">
-            <div className="surface p-4">
-              <h2 className="h4 mb-4">
-                <i className="bi bi-eye me-2"></i>
-                Preview
-              </h2>
-              <div className="row g-4">
-                <div className="col-md-6">
-                  {upiUrl ? (
-                    <div className="text-center p-4 bg-dark rounded">
-                      <QRCode
-                        id="upi-canvas"
-                        value={upiUrl}
-                        size={220}
-                        includeMargin={true}
-                        renderAs="canvas"
-                        bgColor="#121212"
-                        fgColor="#e6eef8"
-                      />
-                      <div className="mt-3">
-                        <button
-                          className="btn btn-outline-light btn-sm me-2"
-                          onClick={downloadQR}
-                        >
-                          <i className="bi bi-download me-2"></i>
-                          Download
-                        </button>
-                        <button
-                          className="btn btn-outline-light btn-sm"
-                          onClick={() => window.print()}
-                        >
-                          <i className="bi bi-printer me-2"></i>
-                          Print
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="text-center p-4 text-secondary">
-                      <i className="bi bi-qr-code display-1 mb-3"></i>
-                      <p>No QR generated yet</p>
-                    </div>
-                  )}
-                </div>
-                <div className="col-md-6">
-                  <h3 className="text-white mb-2">Generated UPI URL</h3>
-                  <pre className="p-3 bg-slate-700/50 rounded text-sm break-words text-slate-300">
-                    {upiUrl || "—"}
-                  </pre>
-                </div>
-              </div>
+          <div className="surface p-4">
+            <h3 className="h5 mb-3">Preview</h3>
+            <div ref={qrRef} className="d-flex justify-content-center">
+              {upiUrl && (
+                <QRCode
+                  value={upiUrl}
+                  size={256}
+                  style={{ height: "auto", maxWidth: "100%" }}
+                />
+              )}
             </div>
           </div>
         </div>
